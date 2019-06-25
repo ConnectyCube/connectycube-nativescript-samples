@@ -1,0 +1,83 @@
+.contacts-header {
+    width: 100%;
+    padding-right: 20;
+}
+.contacts-textfield {
+    height: 40;
+    font-size: 15;
+    color: black;
+    placeholder-color: darkgray;
+    background: whitesmoke;
+    padding: 10;
+    border-radius: 20;
+}
+#searchUsers.contacts-textfield {
+    margin-left: 15;
+}
+#dialogName.contacts-textfield {
+    margin: 10 10 10 7;
+}
+.create-dialog {
+    height: 40;
+    padding: 0;
+    margin: 10 7 10 0;
+    color: white;
+    background-color: #44d2a6;
+    border-radius: 20;
+    text-transform: none;
+    font-size: 16;
+    font-weight: 500;
+}
+
+.selected-list {
+    padding: 5 2 10 2;
+    border-bottom-width: 0.5;
+    border-bottom-color: lightgray;
+}
+.selected-label {
+    padding: 7 12;
+    margin: 0 5;
+    background-color: lightgray;
+    border-radius: 20;
+}
+.selected-name {
+    font-size: 16;
+    font-weight: bold;
+}
+.selected-delete {
+    color: red;
+    font-size: 19;
+    margin-left: 10;
+}
+
+.contacts-item {
+    margin: 0;
+    padding: 5;
+}
+.contacts-avatar {
+    width: 50;
+    height: 50;
+    margin: 0 10;
+    border-radius: 50%;
+}
+.contacts-name {
+    font-size: 18;
+    font-weight: bold;
+    vertical-align: center;
+}
+.contacts-add {
+    padding: 10;
+    font-size: 19;
+    vertical-align: center;
+    color: green;
+}
+.search-placeholder {
+    width: 100%;
+    height: 100%;
+}
+.search-placeholder-text {
+    width: 80%;
+    text-align: center;
+    font-size: 20;
+    vertical-align: center;
+}

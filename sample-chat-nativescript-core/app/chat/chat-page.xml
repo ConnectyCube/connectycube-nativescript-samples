@@ -1,0 +1,52 @@
+<Page
+    loaded="onLoaded"
+    navigatingTo="onNavigatingTo"
+    xmlns="http://schemas.nativescript.org/tns.xsd">
+
+    <ActionBar class="action-bar">
+        <GridLayout columns="auto, auto, *" class="chat-header" ios:width="90%" height="100%">
+            <Label
+                col="0"
+                ios:visibility="collapsed"
+                tap="onBackButtonTap"
+                text="&#xf060;"
+                class="fa chat-back"
+                fontSize="20"
+                verticalAlignment="center" />
+            <Image col="1" src="{{ photo }}" class="chat-header-icon"></Image>
+            <Label col="2" text="{{ name }}" class="chat-header-label"></Label>
+        </GridLayout>
+    </ActionBar>
+
+    <GridLayout rows="*, auto">
+        <ListView
+            row="0"
+            orientation="vertical"
+            id="chatHistory"
+            separatorColor="transparent"
+            items="{{ history }}">
+            <ListView.itemTemplate>
+                <GridLayout columns="auto, *" class="message-item">
+                    <Image col="0" verticalAlignment="top" src="{{ sender.avatar }}" class="message-avatar"></Image>
+                    <StackLayout col="1" verticalAlignment="top" horizontalAlignment="left" class="message-block">
+                        <Label text="{{ sender.full_name }}" verticalAlignment="top" class="message-autor"></Label>
+                        <Label text="{{ body }}" textWrap="true" verticalAlignment="top" class="message-body"></Label>
+                    </StackLayout>
+                </GridLayout>
+            </ListView.itemTemplate>
+        </ListView>
+
+        <GridLayout row="1" columns="*, 70" class="message-form">
+            <TextField
+                col="0"
+                id="inputChat"
+                class="chat-textfield input input-rounded" 
+                text="{{ message }}"
+                hint="Type a message"
+                textWrap="true"
+                returnKeyType="send"
+                returnPress="pressSend" />
+            <Button col="1" text="send" tap="{{ send }}" class="btn-primary btn-active chat-btn-send" verticalAlignment="bottom"/>
+        </GridLayout>
+    </GridLayout>
+</Page>

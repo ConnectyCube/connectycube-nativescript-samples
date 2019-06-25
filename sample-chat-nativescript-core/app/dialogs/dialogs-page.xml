@@ -1,0 +1,44 @@
+<Page
+    class="page"
+    navigatingFrom="onNavigatingFrom" 
+    navigatingTo="onNavigatingTo" 
+    xmlns="http://schemas.nativescript.org/tns.xsd">
+
+    <ActionBar class="action-bar">
+        <NavigationButton
+            ios:visibility="collapsed"
+            icon="res://menu"
+            tap="onDrawerButtonTap">
+        </NavigationButton>
+
+        <ActionItem
+            ios:width="90%"
+            icon="res://navigation/menu" 
+            android:visibility="collapsed" 
+            tap="onDrawerButtonTap"
+            ios.position="left">
+        </ActionItem>
+
+        <GridLayout columns="*, auto" ios:width="90%" height="100%">
+            <Label col="0" class="action-bar-title" text="Dialogs"></Label>
+            <Label col="1" text="&#xf055;" tap="{{ createChat }}" class="fa chat-create"></Label>
+        </GridLayout>
+    </ActionBar>
+
+    <GridLayout rows="*" columns="*">    
+        <ActivityIndicator busy="{{ isLoading }}" width="32" height="32" color="#2c85be"/>
+
+        <ListView class="list-group" itemTap="onItemTap" items="{{ dialogs }}" separatorColor="transparent" visibility="{{ isLoading ? 'collapse' : 'visible' }}">
+            <ListView.itemTemplate>
+                <GridLayout class="dialog-item" rows="*, auto" columns="auto, *, auto">
+                    <Image row="0" col="0" src="{{ photo }}" class="dialog-photo"></Image>
+                    <StackLayout col="1" verticalAlignment="center">
+                        <Label text="{{ name }}" class="dialog-name"></Label>
+                        <Label text="{{ last_message ? last_message : '' }}" class="dialog-text"></Label>
+                    </StackLayout>
+                    <StackLayout margin="0,5,0,80" row="1" colSpan="2" backgroundColor="lightGray" height="1"></StackLayout>
+                </GridLayout>
+            </ListView.itemTemplate>
+        </ListView>
+    </GridLayout>
+</Page>

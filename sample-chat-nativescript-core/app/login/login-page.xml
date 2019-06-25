@@ -1,0 +1,20 @@
+<Page loaded="pageLoaded" class="page" actionBarHidden="true" xmlns="http://www.nativescript.org/tns.xsd">
+	<FlexboxLayout class="page">
+		<StackLayout class="form">
+			<Image class="logo" src="~/images/logo.png" />
+			<Label class="header" text="CONNECTYCUBE" />
+			<TextField id="name" class="input input-rounded m-t-10" text="{{ fullName }}" hint="Name" returnKeyType="done" visibility="{{ !isLoggingIn ? 'visible' : 'collapse' }}"/>
+			<TextField class="input input-rounded m-t-10" text="{{ email }}" hint="Email" keyboardType="email" autocorrect="false" autocapitalizationType="none" returnKeyType="next" />
+			<TextField id="password" class="input input-rounded m-t-10" text="{{ password }}" hint="Password" secure="true" returnKeyType="{{ isLoggingIn ? 'done' : 'next' }}" />
+			<Button text="{{ isLoggingIn ? 'Log In' : 'Sign Up' }}" tap="{{ submit }}" class="btn btn-primary btn-active m-t-20" />
+			<Label visibility="{{ isLoggingIn ? 'visible' : 'collapse' }}" text="Forgot your password?" class="login-label" tap="{{ forgotPassword }}" />
+		</StackLayout>
+
+		<Label class="login-label sign-up-label" tap="{{ toggleForm }}">
+			<FormattedString>
+				<Span text="{{ isLoggingIn ? 'Don’t have an account? ' : 'Back to Login' }}" />
+				<Span text="{{ isLoggingIn ? 'Sign up' : '' }}" class="bold" />
+			</FormattedString>
+		</Label>
+	</FlexboxLayout>
+</Page>

@@ -1,0 +1,93 @@
+<Page
+    class="page"
+    loaded="onLoaded"
+    navigatingTo="onNavigatingTo"
+    navigatingFrom="onNavigatingFrom"
+    xmlns="http://schemas.nativescript.org/tns.xsd">
+
+    <ActionBar class="action-bar">
+        <GridLayout columns="auto, *" class="contacts-header" ios:width="90%" height="100%">
+            <Label
+                col="0"
+                ios:visibility="collapsed"
+                id="searchUsers"
+                class="fa"
+                tap="onBackButtonTap"
+                text="&#xf060;"
+                fontSize="20"
+                verticalAlignment="center" />
+            <TextField
+                col="1"
+                ios:height="36"
+                ios:marginLeft="20"
+                class="contacts-textfield"
+                text="{{ searchText }}"
+                hint="Search contacts"
+                returnKeyType="search"
+                returnPress="pressSearch"/>
+        </GridLayout>
+    </ActionBar>
+
+    <GridLayout rows="*, auto, auto">
+        <GridLayout row="0" rows="*" columns="*">
+            <ListView 
+                orientation="vertical"
+                items="{{ contacts }}"
+                itemTap="select"
+                separatorColor="transparent"
+                width="100%"
+                height="100%">
+                <ListView.itemTemplate>
+                    <GridLayout columns="auto, *, auto" class="contacts-item">
+                        <Image col="0" src="{{ avatar }}" class="contacts-avatar"></Image>
+                        <Label col="1" text="{{ full_name }}" class="contacts-name"></Label>
+                        <Label col="2" text="&#xf055;" class="fa contacts-add"></Label>
+                    </GridLayout>
+                </ListView.itemTemplate>
+            </ListView>
+
+            <GridLayout class="search-placeholder" visibility="{{ isLoading || isWarning ? 'visible' : 'collapse' }}">
+                <ActivityIndicator busy="{{ isLoading }}" width="32" height="32" color="#2c85be"/>
+                <Label
+                    class="search-placeholder-text"
+                    visibility="{{ isWarning ? 'visible' : 'collapse' }}"
+                    text="{{ warningText }}"
+                    textWrap="true"></Label>
+            </GridLayout>
+        </GridLayout>
+
+        <GridLayout row="1" columns="*, 100">
+            <TextField
+                col="0"
+                id="dialogName"
+                class="contacts-textfield"
+                text="{{ dialogName }}"
+                hint="Dialog's name"
+                returnKeyType="go"
+                visibility="{{ isVisible ? 'visible' : 'collapse' }}"/>
+            <Button
+                col="1"
+                text="START"
+                tap="onCreateButtonTap"
+                class="btn btn-active create-dialog"
+                visibility="{{ isVisible ? 'visible' : 'collapse' }}"/>
+        </GridLayout>
+
+        <ScrollView
+            row="2"
+            orientation="horizontal"
+            visibility="{{ isVisible ? 'visible' : 'collapse' }}">
+            <Repeater items="{{ selected }}">
+                <Repeater.itemsLayout>
+                    <StackLayout orientation="horizontal" class="selected-list"/>
+                </Repeater.itemsLayout>
+                <Repeater.itemTemplate>
+                    <FlexboxLayout justifyContent="center" alignItems="center" class="selected-label">
+                        <Label text="{{ full_name }}" class="selected-name"></Label>
+                        <Label text="&#xff057;" class="fa selected-delete" tap="unselect"></Label>
+                    </FlexboxLayout>
+                </Repeater.itemTemplate>
+            </Repeater>
+        </ScrollView>
+    </GridLayout>
+</Page>

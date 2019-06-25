@@ -1,0 +1,23 @@
+.chat-create {
+    margin-left: 20;
+    margin-right: 10;
+    font-size: 20;
+}
+.dialog-item {
+    margin: 0;
+    padding: 0;
+}
+.dialog-photo {
+    width: 60;
+    height: 60;
+    margin: 5 10;
+    border-radius: 50%;
+}
+.dialog-name {
+    margin: 0 0 8 0;
+    font-size: 18;
+    font-weight: bold;
+}
+.dialog-text {
+    font-size: 12;
+}

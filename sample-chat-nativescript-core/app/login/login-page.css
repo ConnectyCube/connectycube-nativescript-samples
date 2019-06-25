@@ -1,0 +1,52 @@
+.page {
+    align-items: center;
+    flex-direction: column;
+}
+.form {
+    width: 100%;
+    padding-left: 30;
+    padding-right: 30;
+    flex-grow: 2;
+    vertical-align: middle;
+}
+
+.logo {
+    margin-bottom: 12;
+    height: 90;
+    font-weight: bold;
+}
+.header {
+    horizontal-align: center;
+    font-size: 25;
+    font-weight: 600;
+    margin-bottom: 70;
+    text-align: center;
+    color: #2c85be;
+}
+
+.input.input-rounded {
+    font-size: 18;
+    placeholder-color: darkgray;
+    background: whitesmoke;
+    border-color: white;
+}
+
+.btn-primary {
+    height: 50;
+    margin: 30 0 15 0;
+    background-color: #44d2a6;
+    border-radius: 25;
+    font-size: 20;
+    font-weight: 600;
+}
+.login-label {
+    horizontal-align: center;
+    color: #a8a8a8;
+    font-size: 16;
+}
+.sign-up-label {
+    margin-bottom: 20;
+}
+.bold {
+    color: #000000;
+}
