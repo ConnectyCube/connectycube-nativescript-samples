@@ -11,21 +11,45 @@ function ChatViewModel() {
 
         send() {
             if (!this.message.trim()) return;
+            
+            const typeDialog = this.get('xmpp_room_jid');
 
-            const to = this.get('destination');
-            const message = {
-                type: this.get('type') === 3 ? 'chat' : 'groupchat',
-                body: this.message.trim(),
-                extension: {
-                    save_to_history: 1,
-                    dialog_id: this.get('id'),
-                    sender_id: AppStorage.getCurrentUser('id')
-                },
-                markable: 1
+            const date = Math.floor(Date.now() / 1000)
+            const recipient_id = 
+                this.get('type') === 3 ? 
+                this.get('occupants_ids').find(elem => elem != AppStorage.getCurrentUser('id')) : 
+                typeDialog;
+
+            const messageExtensions = {
+              date_sent: date,
+              save_to_history: 1,
+              dialog_id: this.get('id'),
+              sender_id: AppStorage.getCurrentUser('id'),
             };
 
-            if (message.body) {
-                ChatService.sendMessage(to, message);
+            const msg = {
+              type: !typeDialog ? 'chat' : 'groupchat',
+              body: this.message.trim(),
+              extension: messageExtensions,
+            };
+
+            console.warn('msg1', msg)
+
+            // const to = this.get('destination');
+            // const message = {
+            //     type: this.get('type') === 3 ? 'chat' : 'groupchat',
+            //     body: this.message.trim(),
+            //     extension: {
+            //         save_to_history: 1,
+            //         dialog_id: this.get('id'),
+            //         sender_id: AppStorage.getCurrentUser('id')
+            //     },
+            //     markable: 1
+            // };
+
+            if (msg.body) {
+                // ChatService.sendMessage(recipient_id, message);
+                ChatService.sendMessage(recipient_id, msg);
                 this.message = '';
             }
         },

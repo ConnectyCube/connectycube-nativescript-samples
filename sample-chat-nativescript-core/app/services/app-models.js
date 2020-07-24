@@ -7,6 +7,7 @@ function Dialog(dialog) {
     this.photo = getPhoto(dialog);
     this.room_jid = dialog.xmpp_room_jid;
     this.admins_ids = dialog.admins_ids;
+    this.destination = dialog.xmpp_room_jid || dialog.room_jid;
     this.occupants_ids = dialog.occupants_ids;
     this.updated_date = getUpdatedDate(dialog);
     this.last_message_date_sent = getLastMessageDateSend(dialog);

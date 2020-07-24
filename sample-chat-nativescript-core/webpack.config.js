@@ -8,6 +8,7 @@ const CopyWebpackPlugin = require("copy-webpack-plugin");
 const { BundleAnalyzerPlugin } = require("webpack-bundle-analyzer");
 const { NativeScriptWorkerPlugin } = require("nativescript-worker-loader/NativeScriptWorkerPlugin");
 const TerserPlugin = require("terser-webpack-plugin");
+const { empty } = require("rxjs");
 const hashSalt = Date.now().toString();
 
 module.exports = env => {
@@ -54,7 +55,7 @@ module.exports = env => {
 
     const entryModule = nsWebpack.getEntryModule(appFullPath, platform);
     const entryPath = `.${sep}${entryModule}.js`;
-    const entries = { bundle: entryPath };
+    const entries = { bundle: ['@babel/polyfill', entryPath] };
     const areCoreModulesExternal = Array.isArray(env.externals) && env.externals.some(e => e.indexOf("tns-core-modules") > -1);
     if (platform === "ios" && !areCoreModulesExternal) {
         entries["tns_modules/tns-core-modules/inspector_modules"] = "inspector_modules";
@@ -118,6 +119,10 @@ module.exports = env => {
             "setImmediate": false,
             "fs": "empty",
             "__dirname": false,
+            net: 'empty',
+            tls: 'empty',
+            dns: 'empty',
+            console: true
         },
         devtool: hiddenSourceMap ? "hidden-source-map" : (sourceMap ? "inline-source-map" : "none"),
         optimization: {
@@ -161,6 +166,25 @@ module.exports = env => {
         module: {
             rules: [
                 {
+                    test: /\.js$/,
+                    include:[/connectycube\/lib/],
+                    use: [
+                      {
+                        loader: "babel-loader",
+                        options: {
+                          presets: ["@babel/preset-env"],
+                          plugins: [
+                            "@babel/plugin-proposal-object-rest-spread",
+                            "@babel/plugin-proposal-class-properties",
+                            "@babel/plugin-proposal-optional-chaining",
+                            // "@babel/plugin-transform-runtime"
+                          ]
+                        }
+                      }
+                    ]
+                  },
+
+                {
                     test: nsWebpack.getEntryPathRegExp(appFullPath, entryPath),
                     use: [
                         // Require all Android app components
@@ -168,7 +192,6 @@ module.exports = env => {
                             loader: "nativescript-dev-webpack/android-app-components-loader",
                             options: { modules: appComponents }
                         },
-
                         {
                             loader: "nativescript-dev-webpack/bundle-config-loader",
                             options: {
@@ -179,6 +202,7 @@ module.exports = env => {
                                 ignoredFiles: nsWebpack.getUserDefinedEntries(entries, platform)
                             }
                         },
+                        
                     ].filter(loader => !!loader)
                 },
 
@@ -260,3 +284,4 @@ module.exports = env => {
 
     return config;
 };
+
