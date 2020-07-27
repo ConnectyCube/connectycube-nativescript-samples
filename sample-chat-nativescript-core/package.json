@@ -15,7 +15,7 @@
     "lint": "eslint \"app/**/*.js\""
   },
   "dependencies": {
-    "connectycube": "file:./connectycube-3.6.2.tgz",
+    "native-script-connectycube": "file:./native-script-connectycube-3.6.7.tgz",
     "nativescript-iqkeyboardmanager": "^1.3.0",
     "nativescript-na-keyboard": "^1.1.0",
     "nativescript-theme-core": "~1.0.4",

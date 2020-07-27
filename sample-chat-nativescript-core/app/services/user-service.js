@@ -1,6 +1,6 @@
 const app = require('tns-core-modules/application');
 const appSettings = require('application-settings');
-const ConnectyCube = require('connectycube');
+const ConnectyCube = require('native-script-connectycube');
 const AppStorage = require('./data-service');
 const User = require('./app-models.js').User;
 
@@ -60,7 +60,6 @@ function autologin() {
 				password: data.password
 			})
 				.then(user => {
-					console.warn('autologin1', user)
 					resolve(user)
 				})
 				.catch(() => reject());
@@ -84,16 +83,18 @@ function getUserById(id) {
 }
 
 async function listUsers(params) {
-	const users = ConnectyCube.users.get(params);
-	if(users){
+	const result = await ConnectyCube.users.get(params);
+
+	if(result.items.length){
 		const users = result.items;
-		let conatcts = {};
-		for (let i = 0; i < users.length; i++) {
-			let user = users[i].user;
-			conatcts[user.id] = new User(user);
-		}
-		AppStorage.setContacts(conatcts);
-		return conatcts
+		let conatacts = {};
+		users.forEach(elem => {
+			conatacts[elem.user.id] = new User(elem.user);
+		});
+			AppStorage.setContacts(conatacts);
+			return conatacts
+	} else {
+		return result
 	}
 }
 
@@ -110,11 +111,11 @@ async function listUsersByIds(ids) {
 }
 
 function listUsersByFullName(name) {
-	return new Promise((resolve, reject) => {
-		listUsers({ per_page: 100, full_name: name })
-			.then(users => resolve(users))
-			.catch(error => reject(error));
-	});
+	const filter = { 
+		per_page: 100, 
+		full_name: name 
+	};
+	return listUsers(filter);
 }
 
 exports.login = login;
