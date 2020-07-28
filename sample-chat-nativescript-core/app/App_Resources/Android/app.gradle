@@ -1,6 +1,17 @@
 
 def settingsGradlePath
 
+dependencies {
+    configurations.all {
+        resolutionStrategy.eachDependency { DependencyResolveDetails details ->
+            def requested = details.requested
+            if (requested.group == 'com.android.support') {
+                details.useVersion '26.0.+'
+            }
+        }
+    }
+}
+
 if(project.hasProperty("appResourcesPath")){
     settingsGradlePath = "$project.appResourcesPath/Android/settings.gradle";
 } else {

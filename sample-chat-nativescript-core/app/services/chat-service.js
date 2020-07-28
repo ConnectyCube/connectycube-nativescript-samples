@@ -1,4 +1,4 @@
-const ConnectyCube = require('connectycube');
+const ConnectyCube = require('nativescript-connectycube');
 const ChatPage = require('../chat/chat-page');
 const DialogsPage = require('../dialogs/dialogs-page');
 const UserService = require('./user-service');
@@ -7,46 +7,27 @@ const Dialog = require('./app-models.js').Dialog;
 const Message = require('./app-models.js').Message;
 
 // Chat - Core
-function connect(user) {
-    return new Promise((resolve, reject) => {
-        ConnectyCube.chat.connect(
-            {
-                userId: user.id,
-                password: user.password
-            },
-            (error, contacts) => {
-                if (!error && contacts) {
-                    _joinToDialogs();
-                    _setupChatListeners();
-                    resolve(contacts);
-                } else {
-                    reject(error);
-                }
-            }
-        );
+async function connect(user) {
+    const contactList = await ConnectyCube.chat.connect({
+        userId: user.id,
+        password: user.password
     });
+    _setupChatListeners();
+    return contactList
 }
 
-function start(user) {
-    return new Promise((resolve, reject) => {
-        getConversations()
-            .then(dialogs => {
-                connect(user);
-                resolve(dialogs);
-            })
-            .catch(error => {
-                reject(error);
-            });
-    });
+async function start(user) {
+    const dialogs = await getConversations();
+    await connect(user);
+    return dialogs;
 }
 
 function disonnect() {
     ConnectyCube.chat.disconnect();
 }
 
-function sendMessage(to, message) {
-    ConnectyCube.chat.send(to, message);
-
+async function sendMessage(recipient_id, message) {
+    ConnectyCube.chat.send(recipient_id, message);
     _showMessage(message);
 }
 
@@ -58,112 +39,54 @@ function onMessageListener(id, message) {
     if (id === AppStorage.getCurrentUser('id')) {
         return;
     }
-
     _showMessage(message);
 }
 
 function _showMessage(msg) {
     let message = new Message(msg);
-
     ChatPage.drawMessage(message);
     DialogsPage.update(message);
 }
 
-// Chat - Dialogs
-function getConversations() {
-    return new Promise((resolve, reject) => {
-        ConnectyCube.chat.dialog.list({ sort_desc: 'last_message_date_sent' }, (error, result) => {
-            if (!error && result) {
-                const items = result.items;
-
-                let dialogs = [],
-                    contactsIds = [];
-
-                for (let i = 0; i < items.length; i++) {
-                    if (items[i].type === 1) continue;
-
-                    let dialog = new Dialog(items[i]);
-
-                    if (dialog.type === 3) {
-                        dialog.destination = ConnectyCube.chat.helpers.getRecipientId(
-                            dialog.occupants_ids,
-                            AppStorage.getCurrentUser('id')
-                        );
-                    } else {
-                        dialog.destination = dialog.room_jid;
-                    }
-
-                    contactsIds = [...new Set(contactsIds.concat(dialog.occupants_ids))];
-                    dialogs.push(dialog);
-                }
-
-                UserService.listUsersByIds(contactsIds);
-                AppStorage.setDialogs(dialogs);
-
-                resolve(dialogs);
-            } else {
-                reject(error);
+async function getConversations() {
+    const result = await ConnectyCube.chat.dialog.list({ sort_desc: 'last_message_date_sent' });
+        if (result) {
+            const items = result.items;
+            let dialogs = [],
+                contactsIds = [];
+            for (let i = 0; i < items.length; i++) {
+                if (items[i].type === 1) continue;
+                let dialog = new Dialog(items[i]);
+                AppStorage.getCurrentUser('id')
+                contactsIds = [...new Set(contactsIds.concat(dialog.occupants_ids))];
+                dialogs.push(dialog);
             }
-        });
-    });
+
+            UserService.listUsersByIds(contactsIds);
+            AppStorage.setDialogs(dialogs);
+            
+            return (dialogs);
+        } 
 }
 
-function createConversation(params) {
-    return new Promise((resolve, reject) => {
-        ConnectyCube.chat.dialog.create(params, (error, conversation) => {
-            if (!error && conversation) {
-                let dialog = new Dialog(conversation);
-
-                if (dialog.type === 3) {
-                    dialog.destination = ConnectyCube.chat.helpers.getRecipientId(
-                        dialog.occupants_ids,
-                        AppStorage.getCurrentUser('id')
-                    );
-                } else {
-                    ConnectyCube.chat.muc.join(dialog.room_jid);
-                    dialog.destination = dialog.room_jid;
-                }
-
-                AppStorage.addDialog(dialog);
-
-                resolve(dialog);
-            } else {
-                reject(error);
-            }
-        });
-    });
-}
-
-function _joinToDialogs() {
-    let dialogs = AppStorage.getDialog();
-
-    for (let i = 0; i < dialogs.length; i++) {
-        let dialog = dialogs[i];
-
-        if (dialog.type !== 3) {
-            ConnectyCube.chat.muc.join(dialog.room_jid);
+async function createConversation(params) {
+    return ConnectyCube.chat.dialog.create(params).then(conversation => {
+        if(conversation){
+            let dialog = new Dialog(conversation);
+            AppStorage.addDialog(dialog); 
+        } else {
+            return conversation
         }
-    }
+    })
 }
 
 // Chat - Messages
-function getChatHistory(dialogId) {
-    return new Promise((resolve, reject) => {
-        ConnectyCube.chat.message.list({ chat_dialog_id: dialogId, sort_desc: 'date_sent' }, (error, result) => {
-            if (!error && result) {
-                const messages = result.items;
-                let history = [];
-
-                for (let i = 0; i < messages.length; i++) {
-                    history.push(new Message(messages[i]));
-                }
-
-                resolve(history.reverse());
-            } else {
-                reject(error);
-            }
-        });
-    });
+async function getChatHistory(dialogId) {
+    const fetchMessages = await ConnectyCube.chat.message.list({ chat_dialog_id: dialogId, sort_desc: 'date_sent' });  
+    const messages = fetchMessages.items.map(elem => {
+        return new Message(elem)
+    })
+    return messages.reverse()
 }
 
 exports.start = start;

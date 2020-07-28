@@ -33,7 +33,30 @@ The following features will be addressed in future:
 
 ## How to build
 
-[Setup {N}](https://docs.nativescript.org/start/quick-setup/) and execute `tns run ios` or `tns run android` from the root of this folder.
+1. [Setup {N}](https://docs.nativescript.org/start/quick-setup/) 
+2. open sample-chat-nativescript-core root of this folder
+3. npm install
+4. open node_modules/pbkdf2/lib/default_encoding.js and replace with:
+   ```
+   var defaultEncoding
+    if (!global.process) {
+     Object.assign(global, {
+         process: {
+             browser: false,
+             env: {},
+             version: "10.16.3"
+         }
+     });
+    }
+    if (process.browser) {
+     defaultEncoding = 'utf-8'
+    } else {
+     var pVersionMajor = parseInt(process.version.split('.')[0].slice(1), 10)
+     defaultEncoding = pVersionMajor >= 6 ? 'utf-8' : 'binary'
+    }
+    module.exports = defaultEncoding
+   ```
+5. `tns run ios` or `tns run android` from the root of this folder.
 
 ## Can't build yourself?
 

@@ -1,12 +1,14 @@
 const AppStorage = require('~/services/data-service');
+const ConnectyCube = require('nativescript-connectycube');
 
 function Dialog(dialog) {
     this.id = dialog._id;
     this.type = dialog.type;
     this.name = getName(dialog);
-    this.photo = getPhoto(dialog);
+    this.photo = getDialogPhoto(dialog);
     this.room_jid = dialog.xmpp_room_jid;
     this.admins_ids = dialog.admins_ids;
+    this.destination = dialog.xmpp_room_jid || dialog.room_jid;
     this.occupants_ids = dialog.occupants_ids;
     this.updated_date = getUpdatedDate(dialog);
     this.last_message_date_sent = getLastMessageDateSend(dialog);
@@ -15,12 +17,12 @@ function Dialog(dialog) {
     this.unread_messages_ids = dialog.unread_messages_ids;
     this.history = [];
 
-    function getPhoto(dialog) {
-        return dialog.photo
-            ? dialog.photo
-            : dialog.type === 2
-            ? '~/images/default_group_chat.png'
-            : '~/images/default_private_chat.png';
+    function getDialogPhoto(dialog) {
+        if(dialog.photo){
+            return ConnectyCube.storage.privateUrl(dialog.photo);
+        } else if(dialog.type === 2){
+            return '~/images/default_group_chat.png';
+        } return '~/images/default_private_chat.png';
     }
 
     function getName(dialog) {
@@ -95,8 +97,16 @@ function User(data) {
     this.full_name = data.full_name || 'Unknown user';
     this.email = data.email || '';
     this.phone = data.phone || '';
-    this.avatar = data.avatar || '~/images/default_private_chat.png';
+    this.avatar = getUserPhoto(data.avatar);
     this.custom_data = data.custom_data || '';
+    function getUserPhoto(avatar){
+        if(avatar){
+            return ConnectyCube.storage.privateUrl(avatar);
+        } else {
+            return '~/images/default_private_chat.png'
+        }
+    }
+    
 }
 
 exports.Dialog = Dialog;
