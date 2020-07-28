@@ -12,11 +12,9 @@ The following code samples are available:
 
 All the samples use ConnectyCube SDK. The following tech integration documentation is available:
 
-- [JavaScript SDK documentation](https://developers.connectycube.com/js/)
-- [NativeScript SDK documentation](https://developers.connectycube.com/js/native-script)
-- [Chat API](https://developers.connectycube.com/js/messaging)
-- [Video Chat API](https://developers.connectycube.com/js/videocalling)
-- [Authentication and Users](https://developers.connectycube.com/js/authentication-and-users)
+- [NativeScript SDK documentation](https://developers.connectycube.com/nativescript)
+- [Chat API](https://developers.connectycube.com/nativescript/messaging)
+- [Authentication and Users](https://developers.connectycube.com/nativescript/authentication-and-users)
 
 ## Have an issue?
 
