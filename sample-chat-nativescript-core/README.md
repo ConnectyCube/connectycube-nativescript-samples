@@ -60,4 +60,4 @@ The following features will be addressed in future:
 
 ## Can't build yourself?
 
-Got troubles with building NativeScript code sample? Just create an issue at [Issues page](https://github.com/ConnectyCube/connectycube-js-samples/issues) - we will create the sample for you. For FREE!
+Got troubles with building NativeScript code sample? Just create an issue at [Issues page](https://github.com/ConnectyCube/connectycube-nativescript-samples/issues) - we will create the sample for you. For FREE!
