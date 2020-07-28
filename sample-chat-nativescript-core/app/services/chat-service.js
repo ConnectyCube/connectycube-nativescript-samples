@@ -1,4 +1,4 @@
-const ConnectyCube = require('native-script-connectycube');
+const ConnectyCube = require('nativescript-connectycube');
 const ChatPage = require('../chat/chat-page');
 const DialogsPage = require('../dialogs/dialogs-page');
 const UserService = require('./user-service');

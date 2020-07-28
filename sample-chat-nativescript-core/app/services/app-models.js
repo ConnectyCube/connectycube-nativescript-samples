@@ -1,5 +1,5 @@
 const AppStorage = require('~/services/data-service');
-const ConnectyCube = require('native-script-connectycube');
+const ConnectyCube = require('nativescript-connectycube');
 
 function Dialog(dialog) {
     this.id = dialog._id;

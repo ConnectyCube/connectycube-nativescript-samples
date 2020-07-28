@@ -1,6 +1,6 @@
 const app = require('tns-core-modules/application');
 const appSettings = require('application-settings');
-const ConnectyCube = require('native-script-connectycube');
+const ConnectyCube = require('nativescript-connectycube');
 const AppStorage = require('./data-service');
 const User = require('./app-models.js').User;
 

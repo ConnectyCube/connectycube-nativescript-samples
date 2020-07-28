@@ -1,4 +1,4 @@
-const ConnectyCube = require('native-script-connectycube');
+const ConnectyCube = require('nativescript-connectycube');
 
 const config = [
     {
