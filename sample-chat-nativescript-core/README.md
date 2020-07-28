@@ -10,9 +10,9 @@ Project contains the following features implemented:
 * Group messaging
 * Users search
 
-ConnectyCube NativeScript getting started - [https://developers.connectycube.com/js/native-script](https://developers.connectycube.com/js/native-script)
+ConnectyCube NativeScript getting started - https://developers.connectycube.com/native-script
 
-ConnectyCube Chat API documentation - [https://developers.connectycube.com/js/messaging](https://developers.connectycube.com/js/messaging)
+ConnectyCube Chat API documentation - https://developers.connectycube.com/native-script/messaging
 
 ## Screenshots
 
