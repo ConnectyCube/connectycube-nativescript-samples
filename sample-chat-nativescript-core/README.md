@@ -36,10 +36,9 @@ The following features will be addressed in future:
 1. [Setup {N}](https://docs.nativescript.org/start/quick-setup/) 
 2. open sample-chat-nativescript-core root of this folder
 3. npm install
-4. Open node_modules/pbkdf2/lib/default_encoding.js and replace with:
+4. open node_modules/pbkdf2/lib/default_encoding.js and replace with:
    ```
    var defaultEncoding
-    /* istanbul ignore next */
     if (!global.process) {
      Object.assign(global, {
          process: {
