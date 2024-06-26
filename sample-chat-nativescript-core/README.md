@@ -16,7 +16,7 @@ ConnectyCube Chat API documentation - https://developers.connectycube.com/native
 
 ## Screenshots
 
-<kbd><img alt="Chat code sample for NativeScript - dialogs list" src="https://developers.connectycube.com/docs/_images/code_samples/nativescript_codesample_chat_dialogs_list.png" width="200" /></kbd> <kbd><img alt="Chat code sample for NativeScript - chat history" src="https://developers.connectycube.com/docs/_images/code_samples/nativescript_codesample_chat_chat_history.png" width="200" /></kbd> <kbd><img alt="Chat code sample for NativeScript - menu" src="https://developers.connectycube.com/docs/_images/code_samples/nativescript_codesample_chat_menu.png" width="200" /></kbd>
+<kbd><img alt="Chat code sample for NativeScript - dialogs list" src="https://developers.connectycube.com/images/code_samples/nativescript_codesample_chat_dialogs_list.png" width="200" /></kbd> <kbd><img alt="Chat code sample for NativeScript - chat history" src="https://developers.connectycube.com/images/code_samples/nativescript_codesample_chat_chat_history.png" width="200" /></kbd> <kbd><img alt="Chat code sample for NativeScript - menu" src="https://developers.connectycube.com/images/code_samples/nativescript_codesample_chat_menu.png" width="200" /></kbd>
 
 ## Roadmap
 
